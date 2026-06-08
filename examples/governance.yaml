@@ -1,0 +1,28 @@
+schema_version: "0.2.0"
+system:
+  name: "Example Credit Decisioning Model"
+  inventory_id: "AI-SYS-0001"
+  risk_tier: 2
+  owner: "model-owner@example.com"
+  sector: "credit_lending_us"
+actor:
+  role: "provider"
+  scope: "system"
+overlays:
+  - "predictive_decisioning"
+promotion:
+  dev_to_staging:
+    require_validation_pass: true
+    require_bias_testing_pass: true
+    require_model_card: true
+  staging_to_production:
+    require_risk_assessment: true
+    require_instructions_for_use: true
+    approvers:
+      - "ai-governance-committee"
+ownership:
+  policy_owner: "ai-governance-committee"
+  project_team_owner: "credit-risk-model-team"
+  change_review:
+    loosening_requires: "policy_owner_approval"
+    tightening_requires: "project_team_owner_approval"

@@ -1,0 +1,591 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:uacc:schema:governance-yaml:0.2.0",
+  "title": "UACC governance.yaml",
+  "description": "Public draft JSON Schema for the UACC governance-as-code configuration file. One governance.yaml per AI system. JSON Schema defaults are annotations; operational enforcement of default values and tightening/loosening rules requires a separate controlled configuration process. See docs/uacc_v02_governance_as_code.md for usage.",
+  "type": "object",
+  "required": ["schema_version", "system", "actor", "overlays", "promotion"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.2.0",
+      "description": "Schema version. Must be 0.2.0 for this schema."
+    },
+    "system": { "$ref": "#/$defs/system" },
+    "actor": { "$ref": "#/$defs/actor" },
+    "overlays": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["predictive_decisioning", "genai_llm", "agent_single", "agent_multi", "dev_security"] },
+      "description": "Use-case overlays this system is governed under. At least one required."
+    },
+    "data_governance": { "$ref": "#/$defs/data_governance" },
+    "model_validation": { "$ref": "#/$defs/model_validation" },
+    "deployment": { "$ref": "#/$defs/deployment" },
+    "monitoring": { "$ref": "#/$defs/monitoring" },
+    "promotion": { "$ref": "#/$defs/promotion" },
+    "evidence_emission": { "$ref": "#/$defs/evidence_emission" },
+    "retention": { "$ref": "#/$defs/retention" },
+    "ownership": { "$ref": "#/$defs/ownership" },
+    "deployer_specific": { "$ref": "#/$defs/deployer_specific" },
+    "genai": { "$ref": "#/$defs/genai" }
+  },
+
+  "$defs": {
+
+    "system": {
+      "type": "object",
+      "required": ["name", "inventory_id", "risk_tier", "owner", "sector"],
+      "additionalProperties": false,
+      "properties": {
+        "name":          { "type": "string", "minLength": 1 },
+        "inventory_id":  { "type": "string", "pattern": "^AI-SYS-[0-9]{4,}$", "description": "Links to UACC-INV-01 inventory entry." },
+        "risk_tier":     { "type": "integer", "enum": [0, 1, 2, 3], "description": "UACC AI risk tier. 0=Prohibited/stop condition, 1=High-risk or high-impact, 2=Limited risk, 3=Minimal risk." },
+        "eu_ai_act_annex_iii_area": { "type": ["string","null"], "description": "EU AI Act Annex III area number (1-8) if Tier 1 high-risk under Annex III." },
+        "cosais_use_case": { "enum": ["genai_assistant", "predictive_decisioning", "agent_single", "agent_multi", "dev_security"] },
+        "owner":         { "type": "string", "format": "email" },
+        "human_overseer_primary": { "type": "string", "format": "email" },
+        "human_overseer_backup":  { "type": "string", "format": "email" },
+        "deployment_geography":   { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "sector": {
+          "enum": [
+            "employment_us", "employment_nyc",
+            "credit_lending_us", "insurance_us", "benefits_public_us",
+            "eu_high_risk_general",
+            "healthcare_us", "education_us", "law_enforcement_us",
+            "other"
+          ],
+          "description": "Drives Sector Parameter Pack selection for fairness/bias controls. Replaces hardcoded universal thresholds."
+        }
+      }
+    },
+
+    "actor": {
+      "type": "object",
+      "required": ["role"],
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": ["provider", "deployer", "importer", "distributor", "authorized_representative"],
+          "description": "EU AI Act actor role for this system. Drives which controls apply and at what scope."
+        },
+        "scope": { "enum": ["system", "organization"], "default": "system" },
+        "material_modification": {
+          "type": "boolean",
+          "default": false,
+          "description": "Deployers who materially modify, fine-tune, or substantially adapt the model become subject to provider-like obligations for the modification."
+        }
+      }
+    },
+
+    "data_governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "require_provenance_manifest":   { "type": "boolean", "default": true,  "description": "UACC-DAT-01" },
+        "require_third_party_manifests": { "type": "boolean", "default": true,  "description": "UACC-DAT-01 (external data)" },
+        "quality_checks":                { "$ref": "#/$defs/quality_checks" },
+        "bias_scan":                     { "$ref": "#/$defs/bias_scan" },
+        "special_category_safeguards":   { "$ref": "#/$defs/special_category_safeguards" }
+      }
+    },
+
+    "quality_checks": {
+      "type": "object",
+      "description": "UACC-DAT-02",
+      "additionalProperties": false,
+      "properties": {
+        "null_threshold_warn":          { "type": "number", "minimum": 0, "maximum": 1, "default": 0.02 },
+        "null_threshold_block":         { "type": "number", "minimum": 0, "maximum": 1, "default": 0.05 },
+        "distribution_shift_threshold": { "type": "number", "minimum": 0, "default": 1.0, "description": "Standard deviations from reference distribution." },
+        "schema_validation":            { "type": "boolean", "default": true },
+        "duplicate_detection":          { "type": "boolean", "default": true }
+      }
+    },
+
+    "bias_scan": {
+      "type": "object",
+      "description": "UACC-DAT-03 (data-level bias scan, distinct from model-level UACC-MDL-02).",
+      "required": ["enabled"],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "protected_attributes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "representation_ratio_threshold":   { "type": "number", "minimum": 0, "maximum": 1, "default": 0.5 },
+        "label_rate_difference_threshold":  { "type": "number", "minimum": 0, "maximum": 1, "default": 0.15 },
+        "proxy_correlation_threshold":      { "type": "number", "minimum": 0, "maximum": 1, "default": 0.7 },
+        "enforcement": { "enum": ["flag", "block"], "default": "flag" }
+      }
+    },
+
+    "special_category_safeguards": {
+      "type": "object",
+      "description": "UACC-DAT-04 — required when protected-attribute or special-category data (GDPR Art. 9) is processed for bias detection (EU AI Act Art. 10(5)).",
+      "additionalProperties": false,
+      "properties": {
+        "art_10_5_safeguard_chain_documented": { "type": "boolean", "default": false },
+        "access_strictly_limited":             { "type": "boolean", "default": false },
+        "no_third_party_disclosure":           { "type": "boolean", "default": true },
+        "deletion_when_no_longer_needed":      { "type": "boolean", "default": true }
+      }
+    },
+
+    "model_validation": {
+      "type": "object",
+      "description": "UACC-MDL-01 plus referenced sub-controls.",
+      "additionalProperties": false,
+      "properties": {
+        "metrics":                  { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "per_segment_analysis":     { "type": "boolean", "default": true },
+        "segments":                 { "type": "array", "items": { "type": "string" } },
+        "regression_threshold":     { "type": "number", "minimum": 0, "maximum": 1, "default": 0.05, "description": "Max acceptable metric drop vs prior version." },
+        "declared_accuracy_metric": { "type": "string", "description": "The metric whose declared value is reported in Instructions for Use (TRN-01)." },
+        "declared_accuracy_value":  { "type": "number" },
+        "reproducibility":          { "$ref": "#/$defs/reproducibility" },
+        "bias_testing":             { "$ref": "#/$defs/bias_testing" },
+        "adversarial_testing":      { "$ref": "#/$defs/adversarial_testing" },
+        "explainability":           { "$ref": "#/$defs/explainability" },
+        "model_card":               { "$ref": "#/$defs/model_card" }
+      }
+    },
+
+    "reproducibility": {
+      "type": "object",
+      "description": "Reproducibility metadata required on every evaluation event. Aligned with UACC-MDL-02 v0.2 template.",
+      "additionalProperties": false,
+      "properties": {
+        "require_model_hash":       { "type": "boolean", "default": true },
+        "require_dataset_hash":     { "type": "boolean", "default": true },
+        "require_code_sha":         { "type": "boolean", "default": true },
+        "require_seeds":            { "type": "boolean", "default": true },
+        "require_env_digest":       { "type": "boolean", "default": true },
+        "require_compute_attestation": { "type": "boolean", "default": true, "description": "Tier 1 systems should require attestation that evaluation ran in the governed CI environment, not on a developer laptop." }
+      }
+    },
+
+    "bias_testing": {
+      "type": "object",
+      "description": "UACC-MDL-02 — model-level bias and disparate impact testing. Threshold values are not specified here; they are inherited from the Sector Parameter Pack identified by system.sector so sector-specific requirements can govern.",
+      "required": ["enabled", "sector_parameter_pack", "fairness_metric_selection_rule", "independence", "exception"],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "sector_parameter_pack": {
+          "type": "string",
+          "description": "References the sector pack ID. Must match system.sector or be a more specific pack the org has published."
+        },
+        "fairness_metric_selection_rule": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Required documented rule explaining which fairness metric(s) govern for this sector and why. Single-metric reliance is discouraged."
+        },
+        "candidate_metrics": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["adverse_impact_ratio", "equalized_odds", "demographic_parity_difference", "calibration_by_group", "false_negative_rate_parity", "false_positive_rate_parity"] },
+          "minItems": 1
+        },
+        "min_subgroup_sample_floor": { "type": "integer", "minimum": 1, "default": 100 },
+        "min_subgroup_sample_warn":  { "type": "integer", "minimum": 1, "default": 1000, "description": "Below this, evaluation reports must include confidence intervals." },
+        "min_subgroup_sample_invalid": { "type": "integer", "minimum": 1, "default": 30, "description": "Below this, fairness metric is flagged 'insufficient data' rather than reported." },
+        "enforcement": { "enum": ["flag", "block"], "default": "block" },
+        "independence":  { "$ref": "#/$defs/independence" },
+        "exception":     { "$ref": "#/$defs/exception" }
+      }
+    },
+
+    "independence": {
+      "type": "object",
+      "description": "Independence Criteria for the approval role on bias evaluation reports (and other approve/review controls).",
+      "required": ["approver_role", "exclude_authors", "require_competence_record", "require_coi_declaration_annual", "authority_to_block"],
+      "additionalProperties": false,
+      "properties": {
+        "approver_role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Named approver role; e.g., model-risk-committee, designated-validator. Must satisfy organizational and functional independence."
+        },
+        "exclude_authors": { "type": "boolean", "default": true },
+        "exclude_managers_of_authors": { "type": "boolean", "default": true },
+        "require_competence_record": { "type": "boolean", "default": true, "description": "Approver must have training records traceable to UACC-GOV-03." },
+        "require_coi_declaration_annual": { "type": "boolean", "default": true },
+        "authority_to_block": { "type": "boolean", "default": true, "description": "Pipeline must enforce approver's block authority." }
+      }
+    },
+
+    "exception": {
+      "type": "object",
+      "description": "Time-bound conditional pass mechanics for when a control cannot be fully satisfied. See UACC-MDL-02 v0.2 Exception / Risk-Acceptance Mechanics section.",
+      "required": ["allowed", "secondary_approver_role", "max_duration_days"],
+      "additionalProperties": false,
+      "properties": {
+        "allowed": { "type": "boolean", "default": false },
+        "secondary_approver_role": {
+          "type": "string",
+          "description": "Approver in addition to the Independence Criteria approver; e.g., cro, general-counsel, board-ai-committee-chair."
+        },
+        "max_duration_days": { "type": "integer", "minimum": 1, "default": 90 },
+        "require_remediation_plan": { "type": "boolean", "default": true },
+        "re_evaluation_cadence_days": { "type": "integer", "minimum": 1, "default": 30 },
+        "evaluate_serious_incident_disclosure": { "type": "boolean", "default": true, "description": "EU AI Act Art. 73 — assess whether breach constitutes serious incident requiring 15-day notification." }
+      }
+    },
+
+    "adversarial_testing": {
+      "type": "object",
+      "description": "UACC-MDL-04",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "scenarios": {
+          "type": "array",
+          "items": { "enum": ["input_perturbation", "feature_manipulation", "distribution_shift", "evasion", "poisoning_simulation", "membership_inference"] },
+          "minItems": 1
+        },
+        "enforcement": { "enum": ["flag", "block"], "default": "block" }
+      }
+    },
+
+    "explainability": {
+      "type": "object",
+      "description": "UACC-TRN-02",
+      "additionalProperties": false,
+      "properties": {
+        "require_global":        { "type": "boolean", "default": true, "description": "Global explanation (e.g., SHAP summary, feature importance)." },
+        "require_local":         { "type": "boolean", "default": true, "description": "Per-instance explanations." },
+        "require_sample_count":  { "type": "integer", "minimum": 1, "default": 10 },
+        "method": { "type": "array", "items": { "enum": ["shap", "lime", "feature_importance", "counterfactual", "anchors"] } }
+      }
+    },
+
+    "model_card": {
+      "type": "object",
+      "description": "UACC-MDL-03",
+      "additionalProperties": false,
+      "properties": {
+        "auto_generate":    { "type": "boolean", "default": true },
+        "require_review":   { "type": "boolean", "default": true },
+        "reviewer_role":    { "type": "string", "default": "model-owner" }
+      }
+    },
+
+    "deployment": {
+      "type": "object",
+      "description": "UACC-HUM-01 plus deployment hardening.",
+      "additionalProperties": false,
+      "properties": {
+        "require_canary":                  { "type": "boolean", "default": true },
+        "canary_fairness_comparison":      { "type": "boolean", "default": true },
+        "require_override_verification":   { "type": "boolean", "default": true, "description": "Test override mechanism before deploy." },
+        "require_interrupt_verification":  { "type": "boolean", "default": true, "description": "Test interrupt/stop mechanism before deploy." },
+        "rollback_on_fairness_degradation": { "type": "boolean", "default": true }
+      }
+    },
+
+    "monitoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "performance":         { "$ref": "#/$defs/monitoring_performance" },
+        "drift_detection":     { "$ref": "#/$defs/monitoring_drift" },
+        "fairness_monitoring": { "$ref": "#/$defs/monitoring_fairness" },
+        "audit_logging":       { "$ref": "#/$defs/monitoring_audit_logging" }
+      }
+    },
+
+    "monitoring_performance": {
+      "type": "object",
+      "description": "UACC-MON-01",
+      "additionalProperties": false,
+      "properties": {
+        "metrics":                          { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "frequency":                        { "enum": ["continuous", "hourly", "daily", "weekly"], "default": "daily" },
+        "degradation_investigate_threshold": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.05 },
+        "degradation_remediate_threshold":  { "type": "number", "minimum": 0, "maximum": 1, "default": 0.10 },
+        "per_segment":                      { "type": "boolean", "default": true },
+        "alert_recipients":                 { "type": "array", "items": { "type": "string", "format": "email" }, "minItems": 1 }
+      }
+    },
+
+    "monitoring_drift": {
+      "type": "object",
+      "description": "UACC-MON-02",
+      "additionalProperties": false,
+      "properties": {
+        "enabled":                   { "type": "boolean", "default": true },
+        "metrics":                   { "type": "array", "items": { "enum": ["psi", "ks_statistic", "wasserstein", "jensen_shannon"] } },
+        "frequency":                 { "enum": ["continuous", "hourly", "daily", "weekly"], "default": "daily" },
+        "psi_investigate_threshold": { "type": "number", "minimum": 0, "default": 0.10 },
+        "psi_remediate_threshold":   { "type": "number", "minimum": 0, "default": 0.25 }
+      }
+    },
+
+    "monitoring_fairness": {
+      "type": "object",
+      "description": "UACC-MON-03 — uses the same Sector Parameter Pack as bias_testing for consistency between pre-deployment and post-deployment fairness.",
+      "additionalProperties": false,
+      "properties": {
+        "enabled":                { "type": "boolean", "default": true },
+        "sector_parameter_pack":  { "type": "string", "description": "Inherits from bias_testing.sector_parameter_pack unless overridden." },
+        "metrics":                { "type": "array", "items": { "enum": ["adverse_impact_ratio", "equalized_odds", "demographic_parity_difference", "calibration_by_group"] } },
+        "protected_attributes":   { "type": "array", "items": { "type": "string" } },
+        "frequency":              { "enum": ["continuous", "daily", "weekly", "monthly", "quarterly"], "default": "weekly" },
+        "drift_threshold":        { "type": "number", "minimum": 0, "maximum": 1, "default": 0.05, "description": "Change from deployment-baseline fairness." }
+      }
+    },
+
+    "monitoring_audit_logging": {
+      "type": "object",
+      "description": "UACC-MON-04",
+      "required": ["fields", "storage", "retention_years"],
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Per-decision fields logged. Recommended minimum: request_id, timestamp, model_version, input_features_hash, output_decision, confidence_score, decision_type, override_flag, overseer_id."
+        },
+        "storage":         { "$ref": "#/$defs/storage_integrity" },
+        "retention_years": { "type": "integer", "minimum": 1, "default": 10, "description": "EU AI Act Art. 12 + Art. 19 — high-risk system logs retained 10 years." }
+      }
+    },
+
+    "storage_integrity": {
+      "type": "object",
+      "description": "Concrete evidence integrity primitive for tamper-evident evidence storage or attestation.",
+      "required": ["primitive"],
+      "additionalProperties": false,
+      "properties": {
+        "primitive": {
+          "enum": ["append_only_log", "hash_chained_log", "object_lock", "merkle_signed", "transparency_log", "external_grc_attestation"],
+          "description": "Choose one. Append-only WORM, hash-chained log (e.g., signed Merkle), S3 object lock, or external transparency log (e.g., Sigstore Rekor)."
+        },
+        "signing_method": { "enum": ["sigstore", "in_toto", "x509", "kms_signed", "none"] },
+        "signer_identity": { "type": "string", "description": "Service identity (e.g., GitHub Actions OIDC subject) that signs evidence events." },
+        "external_attestation_provider": { "type": "string", "description": "If primitive is external_grc_attestation, the provider name." }
+      }
+    },
+
+    "promotion": {
+      "type": "object",
+      "required": ["dev_to_staging", "staging_to_production"],
+      "additionalProperties": false,
+      "properties": {
+        "dev_to_staging":          { "$ref": "#/$defs/promotion_gate" },
+        "staging_to_production":   { "$ref": "#/$defs/promotion_gate_production" }
+      }
+    },
+
+    "promotion_gate": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "require_data_quality_pass":   { "type": "boolean", "default": true, "description": "UACC-DAT-02" },
+        "require_bias_scan_review":    { "type": "boolean", "default": true, "description": "UACC-DAT-03" },
+        "require_validation_pass":     { "type": "boolean", "default": true, "description": "UACC-MDL-01" },
+        "require_bias_testing_pass":   { "type": "boolean", "default": true, "description": "UACC-MDL-02" },
+        "require_adversarial_testing": { "type": "boolean", "default": true, "description": "UACC-MDL-04" },
+        "require_model_card":          { "type": "boolean", "default": true, "description": "UACC-MDL-03" },
+        "require_explainability":      { "type": "boolean", "default": true, "description": "UACC-TRN-02" }
+      }
+    },
+
+    "promotion_gate_production": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "require_risk_assessment":           { "type": "boolean", "default": true, "description": "UACC-RSK-01 (human-completed)." },
+        "require_fria":                      { "type": "boolean", "default": true, "description": "UACC-RSK-02 (human-completed)." },
+        "require_instructions_for_use":      { "type": "boolean", "default": true, "description": "UACC-TRN-01 (human-completed)." },
+        "require_oversight_mechanism_test":  { "type": "boolean", "default": true, "description": "UACC-HUM-01" },
+        "require_overseer_designation":      { "type": "boolean", "default": true, "description": "UACC-HUM-02" },
+        "approvers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Named approver roles required for staging→production promotion."
+        }
+      }
+    },
+
+    "evidence_emission": {
+      "type": "object",
+      "description": "How evidence events are emitted, signed, and addressed. Events MUST conform to the UACC evidence event envelope described in docs/uacc_v02_governance_as_code.md.",
+      "required": ["transport", "signer_identity", "signing_method", "envelope_contract", "envelope_version"],
+      "additionalProperties": false,
+      "properties": {
+        "transport":          { "enum": ["http_api", "kafka", "kinesis", "pubsub", "log_file", "s3_object"] },
+        "endpoint":           { "type": "string" },
+        "signer_identity":    { "type": "string", "description": "OIDC subject, KMS key alias, or service principal." },
+        "signing_method":     { "enum": ["sigstore", "in_toto", "x509", "kms_signed", "none"] },
+        "envelope_contract":  { "type": "string", "const": "uacc.evidence_event_envelope.v0_2", "description": "Normative evidence-event envelope contract identifier." },
+        "envelope_version":   { "type": "string", "const": "0.2.0", "description": "Envelope version for the normative evidence-event envelope contract." }
+      }
+    },
+
+    "retention": {
+      "type": "object",
+      "description": "Evidence retention and lifecycle. EU AI Act high-risk systems require 10-year retention post-last-placement.",
+      "additionalProperties": false,
+      "properties": {
+        "evidence_retention_years":          { "type": "integer", "minimum": 1, "default": 10 },
+        "audit_log_retention_years":         { "type": "integer", "minimum": 1, "default": 10 },
+        "model_artifact_retention_years":    { "type": "integer", "minimum": 1, "default": 10 },
+        "deletion_after_retention":          { "type": "boolean", "default": true, "description": "Schedule deletion at end of retention; deletion event must itself be evidence." },
+        "legal_hold_override":               { "type": "boolean", "default": true, "description": "Honor legal holds that suspend deletion." }
+      }
+    },
+
+    "ownership": {
+      "type": "object",
+      "description": "Who owns the governance.yaml itself. Loosening any parameter requires the policy_owner; tightening can be done by the project_team_owner.",
+      "required": ["policy_owner", "project_team_owner", "change_review"],
+      "additionalProperties": false,
+      "properties": {
+        "policy_owner":         { "type": "string", "description": "Role responsible for the schema and default values (typically AI Governance / GRC)." },
+        "project_team_owner":   { "type": "string", "description": "Role responsible for the per-system instance (typically the model owner)." },
+        "change_review": {
+          "type": "object",
+          "required": ["loosening_requires", "tightening_requires"],
+          "additionalProperties": false,
+          "properties": {
+            "loosening_requires": { "type": "string", "default": "policy_owner_approval", "description": "Loosening any threshold requires this approval." },
+            "tightening_requires": { "type": "string", "default": "project_team_owner_approval" }
+          }
+        }
+      }
+    },
+
+    "deployer_specific": {
+      "type": "object",
+      "description": "Required when actor.role == 'deployer'. Captures third-party model dependencies and deployer-only obligations (EU AI Act Art. 27 FRIA, in-context evaluation).",
+      "additionalProperties": false,
+      "properties": {
+        "third_party_model": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "provider":                  { "type": "string" },
+            "model_id":                  { "type": "string" },
+            "provider_evidence_received": { "type": "array", "items": { "type": "string" }, "description": "Provider artifacts received (e.g., model_card, evaluation_report, conformity_declaration)." },
+            "provider_evidence_gaps":    { "type": "array", "items": { "type": "string" }, "description": "Known gaps the deployer must fill (e.g., bias_evaluation_in_our_context)." }
+          }
+        },
+        "in_context_evaluation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "required":  { "type": "boolean", "default": true },
+            "cadence":   { "enum": ["continuous", "weekly", "monthly", "quarterly"], "default": "quarterly" }
+          }
+        },
+        "fria": {
+          "type": "object",
+          "description": "EU AI Act Art. 27 deployer Fundamental Rights Impact Assessment.",
+          "additionalProperties": false,
+          "properties": {
+            "required":             { "type": "boolean", "default": true },
+            "review_cadence_months": { "type": "integer", "minimum": 1, "default": 12 }
+          }
+        }
+      }
+    },
+
+    "genai": {
+      "type": "object",
+      "description": "Required when overlays includes 'genai_llm'. Reflects controls summarized in docs/uacc_v02_genai_overlay.md.",
+      "required": ["prompt_injection", "output_safety", "hallucination_monitoring", "audit_logging"],
+      "additionalProperties": false,
+      "properties": {
+        "prompt_injection": {
+          "type": "object",
+          "description": "UACC-GEN-01",
+          "additionalProperties": false,
+          "properties": {
+            "enabled":      { "type": "boolean", "default": true },
+            "test_suites":  { "type": "array", "items": { "enum": ["owasp_llm_top10_2025", "internal_redteam", "promptbench"] } },
+            "frequency":    { "enum": ["pre_deploy_only", "weekly", "daily", "continuous"], "default": "weekly" },
+            "enforcement":  { "enum": ["flag", "block"], "default": "block" }
+          }
+        },
+        "rag_governance": {
+          "type": "object",
+          "description": "UACC-GEN-05 — RAG Data Source Governance.",
+          "additionalProperties": false,
+          "properties": {
+            "source_inventory_required":    { "type": "boolean", "default": true },
+            "corpus_provenance_required":   { "type": "boolean", "default": true },
+            "access_control_required":      { "type": "boolean", "default": true },
+            "indirect_injection_detection": { "type": "boolean", "default": true },
+            "corpus_change_review":         { "type": "boolean", "default": true }
+          }
+        },
+        "output_safety": {
+          "type": "object",
+          "description": "UACC-GEN-02 — Output Safety and Content Filtering. Also supports UACC-GEN-04 data leakage prevention where PII/secret redaction and policy override logging are used as leakage controls.",
+          "additionalProperties": false,
+          "properties": {
+            "content_filter":       { "type": "boolean", "default": true },
+            "pii_redaction":        { "type": "boolean", "default": true },
+            "secret_redaction":     { "type": "boolean", "default": true },
+            "policy_override_log":  { "type": "boolean", "default": true }
+          }
+        },
+        "hallucination_monitoring": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled":           { "type": "boolean", "default": true },
+            "grounding_check":   { "enum": ["rag_attribution", "citation_required", "fact_check_external", "none"], "default": "rag_attribution" },
+            "review_sampling_rate": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.01 }
+          }
+        },
+        "system_prompt_change_control": {
+          "type": "object",
+          "description": "Supporting schema capability for prompt/release governance. Not a canonical UACC-GEN-05 mapping; GEN-05 is RAG Data Source Governance.",
+          "additionalProperties": false,
+          "properties": {
+            "version_controlled":     { "type": "boolean", "default": true },
+            "review_required":        { "type": "boolean", "default": true },
+            "regression_test_suite":  { "type": "boolean", "default": true }
+          }
+        },
+        "audit_logging": {
+          "type": "object",
+          "description": "GenAI-specific log fields beyond the base UACC-MON-04 set.",
+          "additionalProperties": false,
+          "properties": {
+            "log_prompt":           { "type": "boolean", "default": true },
+            "log_response":         { "type": "boolean", "default": true },
+            "log_rag_context":      { "type": "boolean", "default": true },
+            "log_guardrail_events": { "type": "boolean", "default": true },
+            "log_token_counts":     { "type": "boolean", "default": true }
+          }
+        }
+      }
+    }
+  },
+
+  "allOf": [
+    {
+      "if":   { "required": ["actor"], "properties": { "actor": { "properties": { "role": { "const": "deployer" } }, "required": ["role"] } } },
+      "then": { "required": ["deployer_specific"] }
+    },
+    {
+      "if":   { "required": ["overlays"], "properties": { "overlays": { "contains": { "const": "genai_llm" } } } },
+      "then": { "required": ["genai"] }
+    },
+    {
+      "if":   { "required": ["system"], "properties": { "system": { "properties": { "risk_tier": { "const": 1 } }, "required": ["risk_tier"] } } },
+      "then": { "required": ["deployment", "monitoring", "evidence_emission", "retention", "ownership"] }
+    }
+  ]
+}
