@@ -1,8 +1,8 @@
-# UACC v0.2 Control Catalog — Hardened Core
+# UACC v0.2 Control Catalog — v0.2 Core
 
 **Version:** 0.2 Public Draft  
 **Status:** Public draft / working reference  
-**Scope:** Predictive/decisioning AI hardened core controls  
+**Scope:** Predictive/decisioning AI v0.2 core controls  
 **Audience:** GRC, security, privacy, legal, model risk, AI engineering, MLOps, and audit teams  
 **License:** CC BY 4.0  
 **Last updated:** 2026-06-06
@@ -15,11 +15,11 @@
 
 ## 1. Scope and applicability
 
-This public draft hardens 11 controls from the broader 35-control UACC base catalog for predictive/decisioning AI systems. The remaining base controls stay in less detailed working-reference form and are planned for later hardening. This document does not create a certification scheme.
+This public draft develops 11 controls from the broader 35-control UACC base catalog for predictive/decisioning AI systems. The remaining base controls stay in less detailed working-reference form and are planned for later development. This document does not create a certification scheme.
 
-Related-control references may point to controls in the broader 35-control UACC base catalog, not only the 11 controls hardened in this public draft.
+Related-control references may point to controls in the broader 35-control UACC base catalog, not only the 11 controls detailed in this public draft.
 
-The 11 hardened controls were selected because they form a minimum evidence-producing core for consequential predictive/decisioning AI systems: governance authority, system discovery, risk classification, pre-deployment risk analysis, rights impact assessment, data provenance, bias testing, operational monitoring, decision traceability, human oversight, and serious incident response. Other UACC base controls remain available in less detailed working-reference form and may be hardened in later releases after public feedback.
+The 11 v0.2 core controls were selected because they form a minimum evidence-producing core for consequential predictive/decisioning AI systems: governance authority, system discovery, risk classification, pre-deployment risk analysis, rights impact assessment, data provenance, bias testing, operational monitoring, decision traceability, human oversight, and serious incident response. Other UACC base controls remain available in less detailed working-reference form and may be detailed in later releases after public feedback.
 
 Organizations may adopt the default parameter assignments as a starting baseline, replace them with documented organization-defined values, or use them as assessment criteria for a defined system scope. Tailoring should be documented, approved, and retained as assessment evidence.
 
@@ -42,7 +42,7 @@ This table is a quick reference for reading the catalog. See `uacc_v02_glossary.
 
 | Term | Meaning in this catalog |
 |---|---|
-| Hardened core | The 11 controls expanded to assessor-grade detail in this public draft. |
+| v0.2 core | The 11 controls expanded to assessor-grade detail in this public draft. |
 | Tier 0 | Prohibited or disallowed use; stop or do not deploy unless legal status changes. |
 | Tier 1 | High-risk or consequential AI use requiring the strongest evidence baseline. |
 | Tier 2 | Limited/moderate-risk AI use requiring documented governance and scaled evidence. |
@@ -79,7 +79,7 @@ The common exception process is defined once here and referenced by controls. Wh
 
 ---
 
-## 3. Hardened core controls
+## 3. v0.2 core controls
 
 | Section | Control ID | Control title |
 |---|---|---|
@@ -691,5 +691,5 @@ The organization shall define, test, and operate a serious AI incident reporting
 
 | Date | Change |
 |---|---|
-| 2026-06-06 | Expanded all 11 hardened controls for public-draft assessability, conservative crosswalk labels, evidence expectations, and implementation caveats. |
-| 2026-06-04 | Defined the public v0.2 hardened core as 11 controls, including `UACC-GOV-01`. |
+| 2026-06-06 | Expanded all 11 v0.2 core controls for public-draft assessability, conservative crosswalk labels, evidence expectations, and implementation caveats. |
+| 2026-06-04 | Defined the public v0.2 core as 11 controls, including `UACC-GOV-01`. |

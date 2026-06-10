@@ -14,6 +14,24 @@ Governance-as-code expresses selected UACC requirements in version-controlled co
 - Canonical catalog: `uacc_v02_control_catalog.md`
 - GenAI overlay reference: `uacc_v02_genai_overlay.md`
 
+### Tier 2 example
+
+```yaml title="examples/governance.yaml"
+--8<-- "examples/governance.yaml"
+```
+
+### Tier 1 high-risk example
+
+```yaml title="examples/governance_tier1_high_risk.yaml"
+--8<-- "examples/governance_tier1_high_risk.yaml"
+```
+
+### Governance YAML schema
+
+```json title="schemas/governance_yaml_schema.json"
+--8<-- "schemas/governance_yaml_schema.json"
+```
+
 ## Schema status
 
 The public schema includes base predictive/decisioning blocks plus a GenAI overlay block. The sample governance files were validated locally against the public schema on 2026-06-06 using JSON Schema Draft 2020-12 validation. Run `python3 scripts/validate_governance_yaml.py` from the public repository root to repeat the validation.

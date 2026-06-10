@@ -2,16 +2,16 @@
 
 **Version:** 0.2 Public Draft  
 **Status:** Public draft / working reference  
-**Scope:** Working GenAI overlay controls; not part of the v0.2 hardened 11-control predictive/decisioning core  
+**Scope:** Working GenAI overlay controls; not part of the v0.2 core 11-control predictive/decisioning set  
 **Audience:** GRC, security, privacy, AI engineering, application security, MLOps, and audit teams  
 **License:** This document and control descriptions are CC BY 4.0; schema/scripts are MIT  
 **Last updated:** 2026-06-06
 
 > UACC is an open working reference catalog. It does not provide legal advice, certify compliance, replace conformity assessment, or create a regulatory safe harbor. Crosswalks identify areas of overlap and potential evidence reuse; they do not establish equivalence between frameworks.
 
-The GenAI overlay adds controls for LLM assistants, RAG systems, and API-integrated GenAI systems. In v0.2, these controls are a working overlay rather than part of the hardened 11-control predictive/decisioning core. They are intended to guide implementation and evidence collection for GenAI-specific risks while the base UACC controls continue to apply where relevant.
+The GenAI overlay adds controls for LLM assistants, RAG systems, and API-integrated GenAI systems. In v0.2, these controls are a working overlay rather than part of the v0.2 core 11-control predictive/decisioning set. They are intended to guide implementation and evidence collection for GenAI-specific risks while the base UACC controls continue to apply where relevant.
 
-The hardened core is the stable v0.2 baseline for predictive or decisioning AI systems. The GenAI overlay is separate because LLM, RAG, and agentic systems introduce different risks, such as prompt injection, retrieved-context compromise, hallucination, leakage through generated output, and excessive tool agency.
+The v0.2 core is the stable v0.2 baseline for predictive or decisioning AI systems. The GenAI overlay is separate because LLM, RAG, and agentic systems introduce different risks, such as prompt injection, retrieved-context compromise, hallucination, leakage through generated output, and excessive tool agency.
 
 Schema mappings in this document describe configuration support. Schema presence is not evidence of control operating effectiveness; implementers still need test results, approvals, monitoring records, review evidence, and residual-risk decisions appropriate to the system and risk tier.
 
@@ -46,7 +46,7 @@ When `genai_llm` is selected in `governance.yaml`, the public v0.2 schema requir
 
 ## Priority overlay assessor checks
 
-The following GenAI controls include preliminary assessor-facing checks in v0.2 because they are common review focus areas. They remain working overlay controls and are not part of the hardened 11-control predictive/decisioning core.
+The following GenAI controls include preliminary assessor-facing checks in v0.2 because they are common review focus areas. They remain working overlay controls and are not part of the v0.2 core 11-control predictive/decisioning set.
 
 ### UACC-GEN-01 — Prompt Injection Defense
 

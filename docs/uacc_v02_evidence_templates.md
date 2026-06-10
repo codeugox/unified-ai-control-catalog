@@ -3,7 +3,7 @@
 **Version:** 0.2 Public Draft  
 **Status:** Public draft / working reference  
 
-This document shows how the v0.2 hardened core maps controls to practical evidence artifacts. It provides the traceability index and the v0.2 evidence-template changes that matter for implementation and review; it is not a complete fill-in-the-blank evidence workbook.
+This document shows how the v0.2 core maps controls to practical evidence artifacts. It provides the traceability index and the v0.2 evidence-template changes that matter for implementation and review; it is not a complete fill-in-the-blank evidence workbook.
 
 ## Evidence-to-control index
 
@@ -30,7 +30,7 @@ This document shows how the v0.2 hardened core maps controls to practical eviden
 
 ## Direct operational evidence
 
-Some hardened controls intentionally rely on direct operational evidence rather than a numbered `EVD-*` form:
+Some v0.2 core controls intentionally rely on direct operational evidence rather than a numbered `EVD-*` form:
 
 | Control | Direct operational evidence |
 |---|---|
@@ -39,7 +39,7 @@ Some hardened controls intentionally rely on direct operational evidence rather 
 
 ## Example evidence artifact contents
 
-The examples below are illustrative, not full templates. They show the type of information an assessor, implementer, or reviewer should expect to see in representative evidence artifacts for the v0.2 hardened core. They are selected examples, not exhaustive coverage of every `EVD-*` item.
+The examples below are illustrative, not full templates. They show the type of information an assessor, implementer, or reviewer should expect to see in representative evidence artifacts for the v0.2 core. They are selected examples, not exhaustive coverage of every `EVD-*` item.
 
 ### EVD-01 — AI System Inventory Register
 

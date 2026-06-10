@@ -14,7 +14,7 @@ Crosswalks identify areas of overlap and potential evidence reuse. They do not e
 | Analogical | Similar control concept, but the source framework was not written for this exact AI-specific requirement. |
 | Informative | Useful context or alignment only; not a requirement mapping. |
 
-## Hardened-core crosswalk summary
+## v0.2 core crosswalk summary
 
 | UACC control | AI RMF | SP 800-53 | EU AI Act | ISO/IEC 42001 | COSAIS |
 |---|---|---|---|---|---|

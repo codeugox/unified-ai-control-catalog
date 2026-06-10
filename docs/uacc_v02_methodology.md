@@ -5,13 +5,13 @@
 
 ## Purpose
 
-This methodology explains how to apply the v0.2 hardened core without treating UACC as a certification scheme or legal safe harbor.
+This methodology explains how to apply the v0.2 core without treating UACC as a certification scheme or legal safe harbor.
 
-The hardened core is the subset of UACC controls expanded to assessor-grade detail in this public draft. Other base-catalog controls remain in less detailed working-reference form until later releases.
+The v0.2 core is the subset of UACC controls expanded to assessor-grade detail in this public draft. Other base-catalog controls remain in less detailed working-reference form until later releases.
 
 ## Assessment approach
 
-Each hardened control uses three assessment methods:
+Each v0.2 core control uses three assessment methods:
 
 - **Examine:** inspect documents, records, logs, configuration, approvals, reports, or evidence events.
 - **Interview:** confirm process understanding with accountable roles.
@@ -113,4 +113,4 @@ Reused evidence should identify the system, model or component version, data sco
 
 ## v0.2 release scope
 
-The public draft hardens 11 of the broader 35 base controls. The remaining controls stay at working-reference depth until later releases.
+The public draft develops 11 of the broader 35 base controls. The remaining controls stay at working-reference depth until later releases.

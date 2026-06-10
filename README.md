@@ -4,7 +4,7 @@ Assessor-oriented AI governance controls, reusable evidence expectations, crossw
 
 **Version:** 0.2 Public Draft  
 **Status:** Public draft / working reference  
-**Scope:** Predictive/decisioning AI hardened core, with a working GenAI overlay documented separately  
+**Scope:** Predictive/decisioning AI v0.2 core, with a working GenAI overlay documented separately  
 **License:** Documentation/text under CC BY 4.0; schema/scripts under MIT  
 **Last updated:** 2026-06-06
 
@@ -55,7 +55,7 @@ UACC helps practitioners move from framework intent to reviewable implementation
 
 ## Current status
 
-The v0.2 public draft includes a hardened subset of 11 controls from the broader 35-control UACC base catalog before expanding the rest. These 11 controls have expanded control language, parameter defaults, applicability guidance, evidence expectations, assessment procedures, and crosswalk notes to support review and implementation. “Hardened” does **not** mean independently certified, regulator-approved, legally sufficient, or production-tested in every environment.
+The v0.2 public draft includes a core subset of 11 controls from the broader 35-control UACC base catalog before expanding the rest. These 11 controls have expanded control language, parameter defaults, applicability guidance, evidence expectations, assessment procedures, and crosswalk notes to support review and implementation. “v0.2 core” does **not** mean independently certified, regulator-approved, legally sufficient, or production-tested in every environment.
 
 GenAI overlay controls (`UACC-GEN-*`) are documented separately in the GenAI overlay. This release focuses on the predictive/decisioning AI base catalog.
 
@@ -63,8 +63,8 @@ GenAI overlay controls (`UACC-GEN-*`) are documented separately in the GenAI ove
 
 | Goal | Start with |
 |---|---|
-| See the full 35-control base catalog and 11 hardened controls | `docs/uacc_v02_control_index.md` |
-| Read the full hardened control text | `docs/uacc_v02_control_catalog.md` |
+| See the full 35-control base catalog and 11 v0.2 core controls | `docs/uacc_v02_control_index.md` |
+| Read the full v0.2 core control text | `docs/uacc_v02_control_catalog.md` |
 | Understand tiering and assessment methodology | `docs/uacc_v02_methodology.md` |
 | Plan audit/evidence artifacts | `docs/uacc_v02_evidence_templates.md` |
 | Review framework mappings and confidence labels | `docs/uacc_v02_crosswalk.md` |
@@ -88,8 +88,8 @@ Expected result: the JSON Schema is valid, the Tier 2 and Tier 1 example YAML fi
 
 ```text
 docs/
-  uacc_v02_control_index.md        # fast view of all 35 controls and hardened status
-  uacc_v02_control_catalog.md      # full assessor-grade text for the 11 hardened controls
+  uacc_v02_control_index.md        # fast view of all 35 controls and v0.2 core status
+  uacc_v02_control_catalog.md      # full assessor-grade text for the 11 v0.2 core controls
   uacc_v02_evidence_templates.md   # evidence traceability and example artifact contents
   uacc_v02_governance_as_code.md   # YAML/schema governance-as-code model
   uacc_v02_genai_overlay.md        # GenAI overlay controls and schema mapping
