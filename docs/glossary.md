@@ -1,3 +1,7 @@
+---
+description: Working glossary for UACC AI governance, risk tiering, evidence, actor roles, controls, overlays, and assessment terminology.
+---
+
 # UACC v0.2 Glossary
 
 **Version:** 0.2 Public Draft  
@@ -5,7 +9,7 @@
 
 Definitions are either adapted from cited public frameworks/law or defined for purposes of this catalog. This glossary is not legal advice.
 
-Use this glossary alongside the `uacc_v02_control_catalog.md`, `uacc_v02_control_index.md`, and `uacc_v02_methodology.md` documents. Evidence-related terms are supported by `uacc_v02_evidence_templates.md`, and overlay terminology is supported by `uacc_v02_genai_overlay.md`.
+Use this glossary alongside the `control-catalog.md`, `control-index.md`, and `methodology.md` documents. Evidence-related terms are supported by `evidence-templates.md`, and overlay terminology is supported by `genai-overlay.md`.
 
 | Term | Working definition |
 |---|---|

@@ -1,3 +1,7 @@
+---
+description: Index of the 35-control UACC base catalog, including the 11 v0.2 core AI governance controls.
+---
+
 # UACC v0.2 Control Index
 
 **Version:** 0.2 Public Draft  
@@ -45,7 +49,7 @@ NIST Low / Moderate / High impact baselines classify information systems by pote
 
 In practice, apply the stricter requirement from either dimension: use NIST/FedRAMP-style baselines for information-system security impact and UACC tiers for AI-specific governance and assurance depth.
 
-How tiers are determined: see `UACC-INV-02` in the control catalog and the tier determination methodology in `uacc_v02_methodology.md`.
+How tiers are determined: see `UACC-INV-02` in the control catalog and the tier determination methodology in `methodology.md`.
 
 ## v0.2 core quick view
 

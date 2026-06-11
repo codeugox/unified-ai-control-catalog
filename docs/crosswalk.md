@@ -1,3 +1,7 @@
+---
+description: Confidence-labeled mappings from UACC v0.2 controls to NIST AI RMF, SP 800-53, EU AI Act, ISO/IEC 42001, and COSAIS.
+---
+
 # UACC v0.2 Crosswalk
 
 **Version:** 0.2 Public Draft  

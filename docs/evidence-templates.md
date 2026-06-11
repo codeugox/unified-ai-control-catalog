@@ -1,3 +1,7 @@
+---
+description: Evidence traceability index and artifact expectations for assessing UACC v0.2 AI governance controls.
+---
+
 # UACC v0.2 Evidence Traceability Index
 
 **Version:** 0.2 Public Draft  

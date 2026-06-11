@@ -1,3 +1,7 @@
+---
+description: Governance-as-code schema, YAML examples, and validation workflow for machine-readable AI governance configuration.
+---
+
 # UACC v0.2 Governance as Code
 
 **Version:** 0.2 Public Draft  
@@ -11,8 +15,8 @@ Governance-as-code expresses selected UACC requirements in version-controlled co
 - Tier 2 example: `../examples/governance.yaml`
 - Tier 1 high-risk example: `../examples/governance_tier1_high_risk.yaml`
 - Validation script: `../scripts/validate_governance_yaml.py`
-- Canonical catalog: `uacc_v02_control_catalog.md`
-- GenAI overlay reference: `uacc_v02_genai_overlay.md`
+- Canonical catalog: `control-catalog.md`
+- GenAI overlay reference: `genai-overlay.md`
 
 ### Tier 2 example
 
@@ -72,7 +76,7 @@ Organizations may add local fields, but should preserve these envelope fields or
 
 ## GenAI ID synchronization
 
-`uacc_v02_genai_overlay.md` is the public reference for GenAI overlay control IDs in v0.2:
+`genai-overlay.md` is the public reference for GenAI overlay control IDs in v0.2:
 
 | Schema sub-block | Canonical mapping | Notes |
 |---|---|---|

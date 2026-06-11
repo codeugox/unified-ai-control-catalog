@@ -1,3 +1,7 @@
+---
+description: Open working reference catalog for assessable AI governance controls, evidence expectations, crosswalks, and governance-as-code artifacts.
+---
+
 # Unified AI Control Catalog
 
 Assessor-oriented AI governance controls, evidence expectations,
@@ -13,27 +17,27 @@ alignment.
 
 <div class="grid cards" markdown>
 
-- :material-format-list-checks: **[Control Index](uacc_v02_control_index.md)**
+- :material-format-list-checks: **[Control Index](control-index.md)**
 
     All 35 base controls, including the 11 v0.2 core controls.
 
-- :material-book-open-variant: **[Control Catalog](uacc_v02_control_catalog.md)**
+- :material-book-open-variant: **[Control Catalog](control-catalog.md)**
 
     The assessor-oriented v0.2 control catalog.
 
-- :material-clipboard-text-search: **[Methodology](uacc_v02_methodology.md)**
+- :material-clipboard-text-search: **[Methodology](methodology.md)**
 
     How UACC structures controls, evidence expectations, and crosswalk confidence.
 
-- :material-code-json: **[Governance as Code](uacc_v02_governance_as_code.md)**
+- :material-code-json: **[Governance as Code](governance-as-code.md)**
 
     Schema, examples, and validation workflow for machine-readable governance.
 
-- :material-table-large: **[Crosswalk](uacc_v02_crosswalk.md)**
+- :material-table-large: **[Crosswalk](crosswalk.md)**
 
     Confidence-labeled mappings to selected AI governance and security references.
 
-- :material-brain: **[GenAI Overlay](uacc_v02_genai_overlay.md)**
+- :material-brain: **[GenAI Overlay](genai-overlay.md)**
 
     Additional guidance for generative AI and LLM-specific risks.
 
@@ -42,9 +46,9 @@ alignment.
 ## Start with the index
 
 If you are evaluating UACC for adoption, start with the
-[Control Index](uacc_v02_control_index.md), then review the
-[Methodology](uacc_v02_methodology.md) and
-[Control Catalog](uacc_v02_control_catalog.md).
+[Control Index](control-index.md), then review the
+[Methodology](methodology.md) and
+[Control Catalog](control-catalog.md).
 
 ## Source of truth
 

@@ -1,3 +1,7 @@
+---
+description: UACC v0.2 methodology for AI risk tiering, evidence reuse, assessment approach, exceptions, and control applicability.
+---
+
 # UACC v0.2 Methodology
 
 **Version:** 0.2 Public Draft  

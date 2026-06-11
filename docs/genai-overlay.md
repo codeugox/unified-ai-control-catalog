@@ -1,3 +1,7 @@
+---
+description: Working UACC GenAI overlay for prompt injection, output safety, RAG governance, hallucination monitoring, leakage prevention, and agentic risk.
+---
+
 # UACC v0.2 GenAI Overlay
 
 **Version:** 0.2 Public Draft  

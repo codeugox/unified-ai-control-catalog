@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:uacc:schema:governance-yaml:0.2.0",
   "title": "UACC governance.yaml",
-  "description": "Public draft JSON Schema for the UACC governance-as-code configuration file. One governance.yaml per AI system. JSON Schema defaults are annotations; operational enforcement of default values and tightening/loosening rules requires a separate controlled configuration process. See docs/uacc_v02_governance_as_code.md for usage.",
+  "description": "Public draft JSON Schema for the UACC governance-as-code configuration file. One governance.yaml per AI system. JSON Schema defaults are annotations; operational enforcement of default values and tightening/loosening rules requires a separate controlled configuration process. See docs/governance-as-code.md for usage.",
   "type": "object",
   "required": ["schema_version", "system", "actor", "overlays", "promotion"],
   "additionalProperties": false,
@@ -418,7 +418,7 @@
 
     "evidence_emission": {
       "type": "object",
-      "description": "How evidence events are emitted, signed, and addressed. Events MUST conform to the UACC evidence event envelope described in docs/uacc_v02_governance_as_code.md.",
+      "description": "How evidence events are emitted, signed, and addressed. Events MUST conform to the UACC evidence event envelope described in docs/governance-as-code.md.",
       "required": ["transport", "signer_identity", "signing_method", "envelope_contract", "envelope_version"],
       "additionalProperties": false,
       "properties": {
@@ -501,7 +501,7 @@
 
     "genai": {
       "type": "object",
-      "description": "Required when overlays includes 'genai_llm'. Reflects controls summarized in docs/uacc_v02_genai_overlay.md.",
+      "description": "Required when overlays includes 'genai_llm'. Reflects controls summarized in docs/genai-overlay.md.",
       "required": ["prompt_injection", "output_safety", "hallucination_monitoring", "audit_logging"],
       "additionalProperties": false,
       "properties": {

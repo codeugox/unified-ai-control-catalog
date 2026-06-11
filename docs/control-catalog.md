@@ -1,3 +1,7 @@
+---
+description: Detailed UACC v0.2 AI control catalog for assessor-oriented governance, risk, evidence, monitoring, human oversight, and incident response controls.
+---
+
 # UACC v0.2 Control Catalog — v0.2 Core
 
 **Version:** 0.2 Public Draft  
@@ -27,7 +31,7 @@ Organizations may adopt the default parameter assignments as a starting baseline
 
 Each control is structured for assessment use: the Control Statement defines the requirement; Parameter Assignments provide default tailoring values; Applicability identifies where the control applies; Assessment Procedures and Pass/Fail Criteria support review; and Crosswalks identify alignment with external frameworks without claiming equivalence.
 
-Terms used in this catalog are defined in `uacc_v02_glossary.md`; tier determination and assessment methodology are described in `uacc_v02_methodology.md`.
+Terms used in this catalog are defined in `glossary.md`; tier determination and assessment methodology are described in `methodology.md`.
 
 - **NORMATIVE** text defines requirements used for assessment.
 - **INFORMATIVE** text provides explanation, context, crosswalks, or implementation guidance.
@@ -38,7 +42,7 @@ Terms used in this catalog are defined in `uacc_v02_glossary.md`; tier determina
 
 ### 2.1 Key terms used in this draft
 
-This table is a quick reference for reading the catalog. See `uacc_v02_glossary.md` and `uacc_v02_methodology.md` for fuller definitions and tier-determination guidance.
+This table is a quick reference for reading the catalog. See `glossary.md` and `methodology.md` for fuller definitions and tier-determination guidance.
 
 | Term | Meaning in this catalog |
 |---|---|
@@ -48,7 +52,7 @@ This table is a quick reference for reading the catalog. See `uacc_v02_glossary.
 | Tier 2 | Limited/moderate-risk AI use requiring documented governance and scaled evidence. |
 | Tier 3 | Minimal/lower-risk AI use subject mainly to inventory, ownership, and baseline governance. |
 | Actor roles | Provider, deployer, importer, distributor, and authorized representative roles are determined by the organization's actual role for a given AI system and jurisdiction; do not assume every role applies to every organization. |
-| Evidence IDs | `EVD-*` references point to evidence artifact examples in `uacc_v02_evidence_templates.md`; equivalent documented evidence is acceptable when it preserves the same assessment facts. |
+| Evidence IDs | `EVD-*` references point to evidence artifact examples in `evidence-templates.md`; equivalent documented evidence is acceptable when it preserves the same assessment facts. |
 | Sector parameter pack | An organization-defined or sector-defined bundle of metrics, thresholds, sample-size rules, and approval parameters for a class of AI use cases. |
 | Significant or material change | A change to intended purpose, population, model/data version, decision workflow, geography, legal role, risk tier, performance, or control design that could affect risk, obligations, or evidence validity. |
 
@@ -221,7 +225,7 @@ The organization shall classify each AI system by risk tier using [Assignment: o
 - Required / Conditional / Informative: Required.
 
 **Discussion [INFORMATIVE]:**  
-Classification drives which controls, evidence, and obligations apply. For consequential predictive/decisioning systems, Article 6(3) derogation claims should be treated as exceptional classification outcomes, not default downgrades. Where claimed, the record should affirmatively address each statutory condition, confirm that the system does not perform profiling of natural persons, identify any required registration or documentation consequence, and include compliance/legal approval. Unsupported, undocumented, unapproved, or profiling-involving derogation claims should not be used to avoid Tier 1 treatment. See the tier determination methodology in `uacc_v02_methodology.md` for the readable EU and non-EU decision flow.
+Classification drives which controls, evidence, and obligations apply. For consequential predictive/decisioning systems, Article 6(3) derogation claims should be treated as exceptional classification outcomes, not default downgrades. Where claimed, the record should affirmatively address each statutory condition, confirm that the system does not perform profiling of natural persons, identify any required registration or documentation consequence, and include compliance/legal approval. Unsupported, undocumented, unapproved, or profiling-involving derogation claims should not be used to avoid Tier 1 treatment. See the tier determination methodology in `methodology.md` for the readable EU and non-EU decision flow.
 
 **Sampling Methodology [NORMATIVE, where applicable]:** Review all Tier 1 classifications and a risk-based sample of Tier 2/Tier 3 classifications; include new registrations, systems claiming Article 6(3) derogation, and systems with significant changes where present.
 

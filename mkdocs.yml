@@ -65,11 +65,11 @@ extra_css:
 
 nav:
   - Home: index.md
-  - Control Index: uacc_v02_control_index.md
-  - Control Catalog: uacc_v02_control_catalog.md
-  - Methodology: uacc_v02_methodology.md
-  - Evidence Templates: uacc_v02_evidence_templates.md
-  - Crosswalk: uacc_v02_crosswalk.md
-  - Governance as Code: uacc_v02_governance_as_code.md
-  - GenAI Overlay: uacc_v02_genai_overlay.md
-  - Glossary: uacc_v02_glossary.md
+  - Control Index: control-index.md
+  - Control Catalog: control-catalog.md
+  - Methodology: methodology.md
+  - Evidence Templates: evidence-templates.md
+  - Crosswalk: crosswalk.md
+  - Governance as Code: governance-as-code.md
+  - GenAI Overlay: genai-overlay.md
+  - Glossary: glossary.md

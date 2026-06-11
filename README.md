@@ -10,6 +10,8 @@ Assessor-oriented AI governance controls, reusable evidence expectations, crossw
 
 UACC is a public working reference for AI governance, security, risk, and compliance teams that need controls they can actually assess. It translates AI governance expectations into control language, evidence expectations, crosswalk confidence labels, and governance-as-code artifacts that can support internal reviews, audit preparation, vendor assessments, and emerging AI regulatory readiness work.
 
+Rendered public documentation is available at [docs.uacc.dev](https://docs.uacc.dev/).
+
 > UACC is an open working reference catalog. It does not provide legal advice, certify compliance, replace conformity assessment, or create a regulatory safe harbor. Crosswalks identify areas of overlap and potential evidence reuse; they do not establish equivalence between frameworks.
 
 ## Why UACC exists
@@ -63,15 +65,15 @@ GenAI overlay controls (`UACC-GEN-*`) are documented separately in the GenAI ove
 
 | Goal | Start with |
 |---|---|
-| See the full 35-control base catalog and 11 v0.2 core controls | `docs/uacc_v02_control_index.md` |
-| Read the full v0.2 core control text | `docs/uacc_v02_control_catalog.md` |
-| Understand tiering and assessment methodology | `docs/uacc_v02_methodology.md` |
-| Plan audit/evidence artifacts | `docs/uacc_v02_evidence_templates.md` |
-| Review framework mappings and confidence labels | `docs/uacc_v02_crosswalk.md` |
-| Understand governance-as-code | `docs/uacc_v02_governance_as_code.md` |
+| See the full 35-control base catalog and 11 v0.2 core controls | [Control Index](https://docs.uacc.dev/control-index/) |
+| Read the full v0.2 core control text | [Control Catalog](https://docs.uacc.dev/control-catalog/) |
+| Understand tiering and assessment methodology | [Methodology](https://docs.uacc.dev/methodology/) |
+| Plan audit/evidence artifacts | [Evidence Templates](https://docs.uacc.dev/evidence-templates/) |
+| Review framework mappings and confidence labels | [Crosswalk](https://docs.uacc.dev/crosswalk/) |
+| Understand governance-as-code | [Governance as Code](https://docs.uacc.dev/governance-as-code/) |
 | Try the YAML examples and schema validator | `examples/`, `schemas/`, `scripts/` |
-| Review GenAI-specific overlay controls | `docs/uacc_v02_genai_overlay.md` |
-| Look up terminology | `docs/uacc_v02_glossary.md` |
+| Review GenAI-specific overlay controls | [GenAI Overlay](https://docs.uacc.dev/genai-overlay/) |
+| Look up terminology | [Glossary](https://docs.uacc.dev/glossary/) |
 
 ## Quick start: validate governance YAML
 
@@ -88,14 +90,14 @@ Expected result: the JSON Schema is valid, the Tier 2 and Tier 1 example YAML fi
 
 ```text
 docs/
-  uacc_v02_control_index.md        # fast view of all 35 controls and v0.2 core status
-  uacc_v02_control_catalog.md      # full assessor-grade text for the 11 v0.2 core controls
-  uacc_v02_evidence_templates.md   # evidence traceability and example artifact contents
-  uacc_v02_governance_as_code.md   # YAML/schema governance-as-code model
-  uacc_v02_genai_overlay.md        # GenAI overlay controls and schema mapping
-  uacc_v02_methodology.md          # tiering, evidence reuse, exception, and assessment method
-  uacc_v02_crosswalk.md            # framework mappings and confidence labels
-  uacc_v02_glossary.md             # working definitions
+  control-index.md        # fast view of all 35 controls and v0.2 core status
+  control-catalog.md      # full assessor-grade text for the 11 v0.2 core controls
+  evidence-templates.md   # evidence traceability and example artifact contents
+  governance-as-code.md   # YAML/schema governance-as-code model
+  genai-overlay.md        # GenAI overlay controls and schema mapping
+  methodology.md          # tiering, evidence reuse, exception, and assessment method
+  crosswalk.md            # framework mappings and confidence labels
+  glossary.md             # working definitions
 examples/
   governance.yaml
   governance_tier1_high_risk.yaml
